@@ -88,7 +88,8 @@ def switch_test(A, B):
 
 
 if __name__ == "__main__":
-    A, B = build_array(int(sys.argv[1]), sys.argv[2])
+    flag = sys.argv[1]
+    A, B = build_array(int(sys.argv[2]), sys.argv[3])
     A, B = np.vstack(A), np.vstack(B)
 
     r_std = standard_multiply(A, B)
@@ -96,13 +97,18 @@ if __name__ == "__main__":
 
     n0 = 23
     r_stsn = strassen_multiply(A, B, n0)
+
+    output = ''
+    for i in range(r_stsn.shape[0]):
+        output += str(int(r_stsn[i][i])) + '\n'
+    print(output)
     
-    if (np.array_equal(r_std, r_stsn) == True):
-        print("Matrices correctly multiply :)")
-    else:
-        print("Matrix multiplication incorrect!")
+    # if (np.array_equal(r_std, r_stsn) == True):
+    #     print("Matrices correctly multiply :)")
+    # else:
+    #     print("Matrix multiplication incorrect!")
 
 
-    opt = switch_test(A,B)
-    print("Optimal switch: " + str(opt))
+    # opt = switch_test(A,B)
+    # print("Optimal switch: " + str(opt))
 
