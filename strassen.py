@@ -1,5 +1,12 @@
 import numpy as np
 import time
+import sys
+
+def build_array(dim, filename):
+    f = open(filename, 'r')
+    A = [[int(f.readline().strip('\n')) for i in range(dim)] for j in range(dim)]
+    B = [[int(f.readline().strip('\n')) for i in range(dim)] for j in range(dim)]
+    return A,B
 
 def standard_multiply(A, B):
     if (A.shape[1] != B.shape[0]):
@@ -60,11 +67,10 @@ def strassen_multiply(A, B, n0):
         C[mid:, mid:] = P1 - P2 + P3 + P6
         return C[:A.shape[1], :B.shape[0]]
 
-n = 60
-A = np.random.randint(0, 2, size=(n, n))
-B = np.random.randint(0, 2, size=(n, n))
-
-n0 = 23
+# n = 60
+# A = np.random.randint(0, 2, size=(n, n))
+# B = np.random.randint(0, 2, size=(n, n))
+# n0 = 23
 
 def switch_test(A, B):
     times = []
@@ -77,17 +83,26 @@ def switch_test(A, B):
     
     min_time_idx = times.index(min(times))
     optimal_n0 = n0_values[min_time_idx]
-    print(optimal_n0)
+    # print(optimal_n0)
     return optimal_n0
 
 
+if __name__ == "__main__":
+    A, B = build_array(int(sys.argv[1]), sys.argv[2])
+    A, B = np.vstack(A), np.vstack(B)
 
-r_std = standard_multiply(A, B)
-print(r_std)
+    r_std = standard_multiply(A, B)
+    # print(r_std)
 
-r_stsn = strassen_multiply(A, B, n0)
-print(r_stsn)
+    n0 = 23
+    r_stsn = strassen_multiply(A, B, n0)
+    
+    if (np.array_equal(r_std, r_stsn) == True):
+        print("Matrices correctly multiply :)")
+    else:
+        print("Matrix multiplication incorrect!")
 
-switch_test(A,B)
 
-print(np.array_equal(r_std, r_stsn))
+    opt = switch_test(A,B)
+    print("Optimal switch: " + str(opt))
+
