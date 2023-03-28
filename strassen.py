@@ -15,8 +15,9 @@ def standard_multiply(A, B):
     
 
 def strassen_multiply(A, B, n0):
-    m = max(A.shape[0], A.shape[1], B.shape[1])
-    m += m % 2  # Round up to next even number
+    m0 = max(A.shape[0], A.shape[1], B.shape[1])
+    m = m0
+    m += m % 2  # round up to next even number
     A_pad = np.zeros((m, m))
     A_pad[:A.shape[0], :A.shape[1]] = A
     # print(A_pad.shape)
@@ -25,7 +26,7 @@ def strassen_multiply(A, B, n0):
     # print(B_pad.shape)
     B_pad[:B.shape[0], :B.shape[1]] = B
 
-    if m <= n0 or 0 == n0:
+    if m0 <= n0 or 0 == n0:
         return standard_multiply(A, B)
 
     else:
@@ -59,7 +60,7 @@ def strassen_multiply(A, B, n0):
         C[mid:, mid:] = P1 - P2 + P3 + P6
         return C[:A.shape[1], :B.shape[0]]
 
-n = 99
+n = 60
 A = np.random.randint(0, 2, size=(n, n))
 B = np.random.randint(0, 2, size=(n, n))
 
@@ -67,7 +68,7 @@ n0 = 23
 
 def switch_test(A, B):
     times = []
-    n0_values = [i for i in range(1,32)]
+    n0_values = [i for i in range(0,50)]
     for n0 in n0_values:
         start_time = time.time()
         strassen_multiply(A, B, n0)
@@ -87,6 +88,6 @@ print(r_std)
 r_stsn = strassen_multiply(A, B, n0)
 print(r_stsn)
 
-# switch_test(A,B)
+switch_test(A,B)
 
 print(np.array_equal(r_std, r_stsn))
