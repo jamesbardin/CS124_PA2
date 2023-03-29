@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import sys
+import random
 
 def build_array(dim, filename):
     f = open(filename, 'r')
@@ -85,6 +86,26 @@ def switch_test(A, B):
     optimal_n0 = n0_values[min_time_idx]
     # print(optimal_n0)
     return optimal_n0
+
+# def triangle_gen(n, p):
+#     adjacency_matrix = np.zeros((n, n))
+#     for i in range(n):
+#         for j in range(i+1, n):
+#             if np.random.random() < p:
+#                 adjacency_matrix[i][j] = 1
+#                 adjacency_matrix[j][i] = 1 
+#     return adjacency_matrix
+
+# for p in [0.01, 0.02, 0.03, 0.04, 0.05]:
+#     adj = triangle_gen(1024, p)
+#     squared = strassen_multiply(adj, adj, 23)
+#     cubed = strassen_multiply(adj, squared, 23)
+#     count = 0
+#     for i in range(cubed.shape[0]):
+#         count += int(cubed[i][i])
+
+#     tri = count/6
+#     print(f"Number of triangles in adjacency matrix, p={p}: {tri}")
 
 
 if __name__ == "__main__":
